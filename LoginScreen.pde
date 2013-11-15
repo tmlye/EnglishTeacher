@@ -1,4 +1,4 @@
-class LoginScreen {
+class LoginScreen extends Screen {
   // COLORS
   color background = #E0E4CC;
   color foreground = #FA6900;
@@ -25,6 +25,10 @@ class LoginScreen {
   
   int nameListWidth= 200;
   int nameListHeight = 300;
+  
+  int getId() {
+    return 0;
+  }
       
   LoginScreen() {   
    elements.add(
@@ -51,7 +55,7 @@ class LoginScreen {
     float bPH = 0.6 * width;
     float bPV = 0.3 * height + 2;
     
-    names = new String[] { "Albrecht", "William", "jhg" };
+    names = new String[] { "Albrecht", "William", "jwg" };
     
     Button temp;
     for(int i = 0; i < names.length; i++) {
@@ -107,10 +111,15 @@ class LoginScreen {
      rect(0.35 * width + 10, 0,  5, height);
   }
   
+  void mouseClickHandler() {
+  }
+  
   // Returns true if the fired event was on LoginScreen
-  boolean login(int eventId, String eventName){
+  boolean eventHandler(int eventId, String eventName){
      if(eventId < names.length) {
        chosenName = eventName;
+       // not very good practice
+       ((GameSelectionScreen)screens.get(1)).setName(eventName);
        screenId++;
        for(Controller ele : elements) {
          ele.hide();

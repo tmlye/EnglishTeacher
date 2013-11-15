@@ -1,9 +1,9 @@
-class GameSelectionScreen {
-  String chosenName;
+class GameSelectionScreen extends Screen {
   PImage chart;
   PImage logOffImg;
   PImage avatar;
   PImage[] gameIcons;
+  int hoverIndex;// id of the icon the mouse is hovering over
   
   // COLORS
   color background = #E0E4CC;
@@ -34,14 +34,30 @@ class GameSelectionScreen {
   float rightColumn;
   int distToLogOff = 60;
   int distBetweenRows = 120;
+  
+  int getId() {
+    return 1;
+  }
+  
+  void setName(String name) {
+    // look for the name label
+    for(Controller controller : elements) {
+      if(controller.getName() == "nameLabel") {
+        ((Textlabel)controller).setText("Name: " + name);
+        break;
+      }
+    }
     
-  GameSelectionScreen(String chosenName) {
+    avatar = loadImage(name + ".jpg");
+  }
+    
+  GameSelectionScreen() {
+    hoverIndex = -1;
     top = 0.1 * height;
     leftColumn = 0.37 * width;
     rightColumn = 0.7 * width;
     leftPosition = 0.01 * width;
    
-    avatar = loadImage(chosenName + ".jpg");
     
     elements.add(
      cp5.addTextlabel("nameLabel")
@@ -138,8 +154,9 @@ class GameSelectionScreen {
   }
   
   void draw() {
+    updateHoverIndex(mouseX, mouseY);
     background(background);
-    
+         
     image(avatar, leftPosition, top, 230, 300);
     
     noStroke();
@@ -161,6 +178,10 @@ class GameSelectionScreen {
     // Bottom right game
     image(gameIcons[3], rightColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
     
+   // TODO enter game icon highlight code here  
+    
+    
+    
     float lPH = 0.25 * width;
     stroke(line1Color);
     fill(line1Color);
@@ -173,4 +194,52 @@ class GameSelectionScreen {
     rect(lPH + 10, 0,  5, height);
   }
   
+  void mouseClickHandler(){
+    if(hoverIndex != -1) {
+      for(Controller ele : elements) {
+         ele.hide();
+      }
+       
+       screenId += hoverIndex + 1;
+    }
+  }
+
+  // Sets hoverIndex to the game icon id of the icon
+  // the mouse is hovering over.
+  // Sets hoverIndex to -1 if it's not hovering over anything
+  void updateHoverIndex(int x, int y) {
+    int rowIndex = -1;
+    if(y >= top && y <= top + gameIconSize) {
+        // Top row
+        rowIndex = 0;
+    } else if (y >= top + gameIconSize + distBetweenRows &&
+               y <= top + 2 * gameIconSize + distBetweenRows) {
+        rowIndex = 1;
+    }
+    if(x >= leftColumn && x <= leftColumn + gameIconSize) {
+      // We're in the left column
+      if(rowIndex == 0) {
+        hoverIndex = 0;
+        return;
+      } else if(rowIndex == 1) {
+       hoverIndex = 1;
+       return;
+      }
+    } else if (x >= rightColumn && x <= rightColumn + gameIconSize) {
+      // We're in the right column
+      if(rowIndex == 0) {
+        hoverIndex = 2;
+        return;
+      } else if(rowIndex == 1) {
+        hoverIndex = 3;
+        return;
+      }
+    }
+    
+    hoverIndex = -1;
+  }
+  
+  boolean eventHandler(int id, String eventName) {
+    return false;
+  }
 }
