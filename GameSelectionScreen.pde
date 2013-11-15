@@ -195,11 +195,8 @@ class GameSelectionScreen extends Screen {
   }
   
   void mouseClickHandler(){
-    if(hoverIndex != -1) {
-      for(Controller ele : elements) {
-         ele.hide();
-      }
-       
+    if(hoverIndex != -1) {      
+       this.hideElements();
        screenId += hoverIndex + 1;
     }
   }
@@ -240,6 +237,11 @@ class GameSelectionScreen extends Screen {
   }
   
   boolean eventHandler(int id, String eventName) {
+    if(eventName == "logoff") {
+      this.hideElements();
+      screenId = 0;
+      return true;
+    }
     return false;
   }
 }
