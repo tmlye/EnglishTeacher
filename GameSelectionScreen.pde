@@ -3,6 +3,7 @@ class GameSelectionScreen {
   PImage chart;
   PImage logOffImg;
   PImage avatar;
+  PImage[] gameIcons;
   
   // COLORS
   color background = #E0E4CC;
@@ -20,14 +21,24 @@ class GameSelectionScreen {
   // FONTS
   PFont font = createFont("Helvetica", 20, true);
  
-  // SIZES  
+  // SIZES
   int buttonWidth = 150;
   int buttonHeight = 30;
   
+  int gameIconSize = 200;
+  
+  // POSITIONS
   float leftPosition;
+  float top;
+  float leftColumn;
+  float rightColumn;
   int distToLogOff = 60;
+  int distBetweenRows = 120;
     
-  GameSelectionScreen(String chosenName) {    
+  GameSelectionScreen(String chosenName) {
+    top = 0.1 * height;
+    leftColumn = 0.37 * width;
+    rightColumn = 0.7 * width;
     leftPosition = 0.01 * width;
    
     avatar = loadImage(chosenName + ".jpg");
@@ -90,12 +101,46 @@ class GameSelectionScreen {
         .toUpperCase(false);
         
     elements.add(temp);
+    
+    gameIcons = new PImage[4];
+    for(int i = 0; i < 4; i++) {
+      gameIcons[i] = loadImage("gameIcon" + i + ".jpg");
+    }
+    
+    // Top left
+    elements.add(
+     cp5.addTextlabel("game0Level")
+       .setText("Level: 1")
+       .setPosition(leftColumn, top + gameIconSize + 10)
+       .setColorValue(fontColor)
+       .setFont(font));
+    // Bottom left
+    elements.add(
+     cp5.addTextlabel("game1Level")
+       .setText("Level: 3")
+       .setPosition(leftColumn, top + 2 * gameIconSize + distBetweenRows + 10)
+       .setColorValue(fontColor)
+       .setFont(font));
+    // Top right
+    elements.add(
+     cp5.addTextlabel("game2Level")
+       .setText("Level: 3")
+       .setPosition(rightColumn, top + gameIconSize + 10)
+       .setColorValue(fontColor)
+       .setFont(font));
+    // Bottom right
+    elements.add(
+     cp5.addTextlabel("game3Level")
+       .setText("Level: 7")
+       .setPosition(rightColumn, top + 2 * gameIconSize + distBetweenRows + 10)
+       .setColorValue(fontColor)
+       .setFont(font));
   }
   
   void draw() {
     background(background);
     
-    image(avatar, leftPosition, height * 0.1, 230, 300);
+    image(avatar, leftPosition, top, 230, 300);
     
     noStroke();
     fill(0);
@@ -106,6 +151,15 @@ class GameSelectionScreen {
     fill(0);
     rect(leftPosition, height * 0.7 + distToLogOff, logOffImg.width, logOffImg.height);
     image(logOffImg, leftPosition, height * 0.7 + distToLogOff);
+    
+    // Top left game
+    image(gameIcons[0], leftColumn, top, gameIconSize, gameIconSize);
+    // Bottom left game
+    image(gameIcons[1], leftColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
+    // Top right game
+    image(gameIcons[2], rightColumn, top, gameIconSize, gameIconSize);
+    // Bottom right game
+    image(gameIcons[3], rightColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
     
     float lPH = 0.25 * width;
     stroke(line1Color);
