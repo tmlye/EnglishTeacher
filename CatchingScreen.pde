@@ -5,7 +5,14 @@ class CatchingScreen extends Screen {
   int wordRate = 70; // larger means less words
   int frame = 0;
   
+  float controllerPosition = width / 2;
+  int controllerSpeed = 20;
+  int controllerWidth = 200;
+  int controllerHeight = 30;
+  color controllerColor = #FA6900;
+  
   color background = #E0E4CC;
+  
   PFont font = createFont("Helvetica", 20, true);
   color fontColor = #000000;
   
@@ -37,6 +44,11 @@ class CatchingScreen extends Screen {
       word.y += speed;
       text(word.text, word.x, word.y);
     }
+    
+    noStroke();
+    fill(controllerColor);
+    rect(controllerPosition - controllerWidth / 2, height - controllerHeight,
+         controllerWidth, controllerHeight);
   }
   
   void mouseClickHandler() {
@@ -48,6 +60,16 @@ class CatchingScreen extends Screen {
       screenId = 1;
       words.clear();
       key = 0; // don't exit
+    } else if(key == 'h') {
+      if(controllerPosition - controllerWidth / 2 < 0) {
+        return;
+      }
+      controllerPosition -= controllerSpeed;
+    } else if(key == 'l') {
+      if(controllerPosition + controllerWidth / 2 > width) {
+        return;
+      }
+      controllerPosition += controllerSpeed;
     }
   }
   

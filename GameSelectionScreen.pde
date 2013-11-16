@@ -92,7 +92,7 @@ class GameSelectionScreen extends Screen {
         .setColorForeground(buttonForegroundColor);
         
       temp
-        .getCaptionLabel()        
+        .getCaptionLabel()
         .setText("Progress")
         .setFont(font)
         .align(ControlP5.LEFT, ControlP5.CENTER)
@@ -202,6 +202,12 @@ class GameSelectionScreen extends Screen {
   }
   
   void keyPressHandler() {
+    if((int)key == 27) {
+      // ESC
+      hideElements();
+      screenId = 0;
+      key = 0; // don't exit
+    }
   }
 
   // Sets hoverIndex to the game icon id of the icon
