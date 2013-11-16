@@ -40,6 +40,10 @@ void draw() {
 void mousePressed() {
   screens.get(screenId).mouseClickHandler();
 }
+
+void keyPressed() {
+  screens.get(screenId).keyPressHandler();
+}
   
 // function controlEvent will be invoked with every value change 
 // in any registered controller

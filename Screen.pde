@@ -3,6 +3,7 @@ abstract class Screen {
   abstract int getId();
   abstract void draw();
   abstract void mouseClickHandler();
+  abstract void keyPressHandler();
   abstract boolean eventHandler(int id, String eventName);
   
   void hideElements() {

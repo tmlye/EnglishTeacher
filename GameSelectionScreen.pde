@@ -200,6 +200,9 @@ class GameSelectionScreen extends Screen {
        screenId += hoverIndex + 1;
     }
   }
+  
+  void keyPressHandler() {
+  }
 
   // Sets hoverIndex to the game icon id of the icon
   // the mouse is hovering over.

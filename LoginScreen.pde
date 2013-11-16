@@ -114,6 +114,9 @@ class LoginScreen extends Screen {
   void mouseClickHandler() {
   }
   
+  void keyPressHandler() {
+  }
+  
   // Returns true if the fired event was on LoginScreen
   boolean eventHandler(int eventId, String eventName){
      if(eventId < names.length) {
