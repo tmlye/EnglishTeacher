@@ -5,8 +5,11 @@ class CatchingScreen extends Screen {
   int wordRate = 70; // larger means less words
   int frame = 0;
   
+  int level = 0;
+  int score = 0;
+  
   float controllerPosition = width / 2;
-  int controllerSpeed = 20;
+  int controllerSpeed = 60;
   int controllerWidth = 200;
   int controllerHeight = 30;
   color controllerColor = #FA6900;
@@ -26,12 +29,16 @@ class CatchingScreen extends Screen {
   
   void draw() {
     frame++;
+    speed = 1+(level/2);
+    controllerWidth = 200-((level-1)*20);
     background(background);
     
     if(frame % wordRate == 0) {
       words.add(createWord());
     }
-    
+    fill(255,0,0);
+    text("SCORE : "+score,20,40);
+    text("LEVEL : "+level,(width/2)-40,40);
     stroke(fontColor);
     fill(fontColor);
     
@@ -49,6 +56,22 @@ class CatchingScreen extends Screen {
     fill(controllerColor);
     rect(controllerPosition - controllerWidth / 2, height - controllerHeight,
          controllerWidth, controllerHeight);
+         
+    controllerTouchWord();
+    
+    if(score <10)
+      level = 1;
+    if(score > 10 && score < 20)
+      level = 2;
+    if(score > 20 && score < 30)
+      level = 3;
+    if(score > 30 && score < 40)
+      level = 4;
+    if(score>40){
+      level = 5;
+      //speed += 0.5;
+    }
+    
   }
   
   void mouseClickHandler() {
@@ -60,12 +83,14 @@ class CatchingScreen extends Screen {
       screenId = 1;
       words.clear();
       key = 0; // don't exit
-    } else if(key == 'h') {
+    } 
+    else if(key == 'h' || key == 'q') {
       if(controllerPosition - controllerWidth / 2 < 0) {
         return;
       }
       controllerPosition -= controllerSpeed;
-    } else if(key == 'l') {
+    } 
+    else if(key == 'l' || key=='d') {
       if(controllerPosition + controllerWidth / 2 > width) {
         return;
       }
@@ -74,6 +99,26 @@ class CatchingScreen extends Screen {
   }
   
   boolean eventHandler(int id, String eventName) {
+    return false;
+  }
+  boolean controllerTouchWord(){
+    Iterator<Word> it = words.iterator();
+    int result;
+    while(it.hasNext()) {
+      Word word = it.next();
+      if( (word.y == height-controllerHeight ) && ((word.x+(word.text.length()*10)) > (controllerPosition - controllerWidth / 2) && word.x < (controllerPosition + controllerWidth/2)) ) {
+        if(!word.isCorrect){
+          background(0,255,0);
+          score++;
+        }
+        else{
+          score--;
+          background(255,0,0);
+        }
+        it.remove();
+        return true;
+      }
+    }
     return false;
   }
   
