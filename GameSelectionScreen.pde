@@ -8,9 +8,9 @@ class GameSelectionScreen extends Screen {
   // COLORS
   color background = #E0E4CC;
   color foreground = #FA6900;
-  color fontColor = #000000;
-  color buttonBackground = #000000;
-  color buttonFontColor = #EEEEEE;
+  color fontColor = #1D709E;
+  color buttonBackground = #F4FDFE;
+  color buttonFontColor = #1D709E;
   // Color when hovering:
   color buttonForegroundColor = #FA6900;
   color nameBackground = #000000;
@@ -22,7 +22,7 @@ class GameSelectionScreen extends Screen {
   PFont font = createFont("Helvetica", 20, true);
  
   // SIZES
-  int buttonWidth = 150;
+  int buttonWidth = 110;
   int buttonHeight = 30;
   
   int gameIconSize = 200;
@@ -32,8 +32,8 @@ class GameSelectionScreen extends Screen {
   float top;
   float leftColumn;
   float rightColumn;
-  int distToLogOff = 60;
-  int distBetweenRows = 120;
+  int distToLogOff = 40;
+  int distBetweenRows = 100;
   
   int getId() {
     return 1;
@@ -43,41 +43,41 @@ class GameSelectionScreen extends Screen {
     // look for the name label
     for(Controller controller : elements) {
       if(controller.getName() == "nameLabel") {
-        ((Textlabel)controller).setText("Name: " + name);
+        ((Textlabel)controller).setText(name);
         break;
       }
     }
     
-    avatar = loadImage(name + ".jpg");
+    avatar = loadImage("gamePics/"+name + ".png");
   }
     
   GameSelectionScreen() {
     hoverIndex = -1;
-    top = 0.1 * height;
+    top = 0.1 * height + 68;
     leftColumn = 0.37 * width;
     rightColumn = 0.7 * width;
-    leftPosition = 0.01 * width;
+    leftPosition = 0.01 * width + 10;
    
     
     elements.add(
      cp5.addTextlabel("nameLabel")
-       .setText("Name: " + chosenName)
-       .setPosition(leftPosition, height * 0.5)
+       .setText(chosenName)
+       .setPosition(leftPosition + 90, height * 0.5 - 55)
        .setColorValue(fontColor)
        .setFont(font));
        
     elements.add(
      cp5.addTextlabel("scoreLabel")
-       .setText("Score: 0")
-       .setPosition(leftPosition, height * 0.5 + 30)
+       .setText("0")
+       .setPosition(leftPosition + 90, height * 0.5 - 25)
        .setColorValue(fontColor)
        .setFont(font));
     
-    chart = loadImage("chart.png");
+    chart = loadImage("gamePics/chart.png");
     chart.resize(buttonHeight,buttonHeight);
     chart.filter(INVERT);
     
-    logOffImg = loadImage("back.png");
+    logOffImg = loadImage("gamePics/back.png");
     logOffImg.filter(INVERT);
     logOffImg.resize(buttonHeight,buttonHeight);
         
@@ -85,7 +85,7 @@ class GameSelectionScreen extends Screen {
     temp =
       cp5.addButton("progress")
         .setId(11)
-        .setPosition(leftPosition + chart.width, height * 0.7)
+        .setPosition(leftPosition + 60, height * 0.7 - 40)
         .setSize(buttonWidth, buttonHeight)
         .setColorBackground(buttonBackground)
         .setColorCaptionLabel(buttonFontColor)
@@ -103,7 +103,7 @@ class GameSelectionScreen extends Screen {
     temp =
      cp5.addButton("logoff")
         .setId(12)
-        .setPosition(leftPosition + chart.width, height * 0.7 + distToLogOff)
+        .setPosition(leftPosition + 60, height * 0.7 - 10 + distToLogOff)
         .setSize(buttonWidth, buttonHeight)
         .setColorBackground(buttonBackground)
         .setColorCaptionLabel(buttonFontColor)
@@ -120,34 +120,34 @@ class GameSelectionScreen extends Screen {
     
     gameIcons = new PImage[4];
     for(int i = 0; i < 4; i++) {
-      gameIcons[i] = loadImage("gameIcon" + i + ".jpg");
+      gameIcons[i] = loadImage("gamePics/gameIcon" + i + ".png");
     }
     
     // Top left
     elements.add(
      cp5.addTextlabel("game0Level")
-       .setText("Level: 1")
+       .setText("Catching")
        .setPosition(leftColumn, top + gameIconSize + 10)
        .setColorValue(fontColor)
        .setFont(font));
     // Bottom left
     elements.add(
      cp5.addTextlabel("game1Level")
-       .setText("Level: 3")
+       .setText("Spelling")
        .setPosition(leftColumn, top + 2 * gameIconSize + distBetweenRows + 10)
        .setColorValue(fontColor)
        .setFont(font));
     // Top right
     elements.add(
      cp5.addTextlabel("game2Level")
-       .setText("Level: 3")
+       .setText("True/False")
        .setPosition(rightColumn, top + gameIconSize + 10)
        .setColorValue(fontColor)
        .setFont(font));
     // Bottom right
     elements.add(
      cp5.addTextlabel("game3Level")
-       .setText("Level: 7")
+       .setText("New game")
        .setPosition(rightColumn, top + 2 * gameIconSize + distBetweenRows + 10)
        .setColorValue(fontColor)
        .setFont(font));
@@ -155,19 +155,9 @@ class GameSelectionScreen extends Screen {
   
   void draw() {
     updateHoverIndex(mouseX, mouseY);
-    background(background);
+    background(loadImage("gamePics/gameScreen.png"));
          
-    image(avatar, leftPosition, top, 230, 300);
-    
-    noStroke();
-    fill(0);
-    rect(leftPosition, height * 0.7, chart.width, chart.height);    
-    image(chart, leftPosition, height * 0.7);
-    
-    noStroke();
-    fill(0);
-    rect(leftPosition, height * 0.7 + distToLogOff, logOffImg.width, logOffImg.height);
-    image(logOffImg, leftPosition, height * 0.7 + distToLogOff);
+    image(avatar, leftPosition, top);
     
     // Top left game
     image(gameIcons[0], leftColumn, top, gameIconSize, gameIconSize);
@@ -179,19 +169,6 @@ class GameSelectionScreen extends Screen {
     image(gameIcons[3], rightColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
     
    // TODO enter game icon highlight code here  
-    
-    
-    
-    float lPH = 0.25 * width;
-    stroke(line1Color);
-    fill(line1Color);
-    rect(lPH, 0,  5, height);
-    stroke(line2Color);
-    fill(line2Color);
-    rect(lPH + 5, 0,  5, height);
-    stroke(line3Color);
-    fill(line3Color);
-    rect(lPH + 10, 0,  5, height);
   }
   
   void mouseClickHandler(){
