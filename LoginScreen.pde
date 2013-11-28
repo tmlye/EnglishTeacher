@@ -3,8 +3,8 @@ class LoginScreen extends Screen {
   color background = #E0E4CC;
   color foreground = #FA6900;
   color fontColor = #000000;
-  color buttonBackground = #000000;
-  color buttonFontColor = #EEEEEE;
+  color buttonBackground = #F4FDFE;
+  color buttonFontColor = #1D709E;
   // Color when hovering:
   color buttonForegroundColor = #FA6900;
   color nameBackground = #000000;
@@ -31,31 +31,10 @@ class LoginScreen extends Screen {
   }
       
   LoginScreen() {   
-   elements.add(
-     cp5.addTextlabel("pickNameLabel")
-       .setText("Pick your name")
-       .setPosition(width * 0.1,height * 0.3)
-       .setColorValue(fontColor)
-       .setFont(font));
-   
-   elements.add(
-     cp5.addTextlabel("orLabel")
-       .setText("or")
-       .setPosition(width * 0.1,height * 0.3 + 100)
-       .setColorValue(fontColor)
-       .setFont(font));
-   
-   elements.add(
-     cp5.addTextlabel("addItLabel")
-       .setText("Add it")
-       .setPosition(width * 0.1,height * 0.3 + 200)
-       .setColorValue(fontColor)
-       .setFont(font));
-  
-    float bPH = 0.6 * width;
+    float bPH = 0.4 * width;
     float bPV = 0.3 * height + 2;
     
-    names = new String[] { "Albrecht", "William", "jwg" };
+    names = new String[] { "Hadrien", "Ian", "Sascha" , "Sophie" };
     
     Button temp;
     for(int i = 0; i < names.length; i++) {
@@ -98,17 +77,7 @@ class LoginScreen extends Screen {
   }
   
   void draw() {
-    background(background);
-    
-     stroke(line1Color);
-     fill(line1Color);
-     rect(0.35 * width, 0,  5, height);
-     stroke(line2Color);
-     fill(line2Color);
-     rect(0.35 * width + 5, 0,  5, height);
-     stroke(line3Color);
-     fill(line3Color);
-     rect(0.35 * width + 10, 0,  5, height);
+     background(loadImage("gamePics/startScreen.png"));
   }
   
   void mouseClickHandler() {

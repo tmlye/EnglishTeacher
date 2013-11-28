@@ -1,5 +1,8 @@
+import gab.opencv.*;
+import processing.video.*;
 import controlP5.*;
 import java.util.*;
+
 ControlP5 cp5;
 
 int screenWidth = 1024;
@@ -7,10 +10,16 @@ int screenHeight = 768;
 
 int screenId;
 HashMap<Integer,Screen> screens;
+
 String[] names;
 String chosenName;
 
+Capture cam;
+OpenCV opencv;
+
 void setup() {
+  
+  //frameRate(1000);
   size(screenWidth, screenHeight);
   noStroke();
   cp5 = new ControlP5(this);
@@ -19,15 +28,21 @@ void setup() {
   screens.put(0, new LoginScreen());
   screens.put(1, new GameSelectionScreen());
   screens.put(2, new CatchingScreen());
-  screens.put(3, new SlicingScreen());
-  screens.put(4, new TypingScreen());
+  screens.put(4, new SlicingScreen());
+  screens.put(3, new TypingScreen());
   screens.put(5, new SpeakingScreen());
+  
   
   for(Screen screen : screens.values()) {
     screen.hideElements();
   }
   
   screenId = 0;
+  
+  cam = new Capture(this,640,480);
+  cam.start();
+  opencv = new OpenCV(this,640,480);
+  opencv.loadCascade("aGest.xml");
 }
 
 void draw() {
@@ -56,3 +71,6 @@ public void controlEvent(ControlEvent event) {
     if(handled) break;
   }
 }
+  
+  
+  
