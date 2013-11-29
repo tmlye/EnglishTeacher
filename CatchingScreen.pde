@@ -1,5 +1,4 @@
-class CatchingScreen extends Screen {
-  
+class CatchingScreen extends Screen {  
   ArrayList<Word> words;
 
     
@@ -21,7 +20,6 @@ class CatchingScreen extends Screen {
   
   color background = #E0E4CC;
   
-  String[] wordList = loadStrings("words.txt");
   PFont font = createFont("Helvetica", 20, true);
   color fontColor = #000000;
   

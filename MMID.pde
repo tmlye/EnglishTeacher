@@ -2,6 +2,10 @@ import gab.opencv.*;
 import processing.video.*;
 import controlP5.*;
 import java.util.*;
+import com.getflourish.stt.*;
+import ddf.minim.Minim;
+
+String result;
 
 ControlP5 cp5;
 
@@ -14,15 +18,18 @@ HashMap<Integer,Screen> screens;
 String[] names;
 String chosenName;
 
+String[] wordList;
+
 Capture cam;
 OpenCV opencv;
 
 void setup() {
-  
+  wordList = loadStrings("words.txt");
   //frameRate(1000);
   size(screenWidth, screenHeight);
   noStroke();
   cp5 = new ControlP5(this);
+  stt = new STT(this);
   
   screens = new HashMap<Integer, Screen>();
   screens.put(0, new LoginScreen());
@@ -70,6 +77,13 @@ public void controlEvent(ControlEvent event) {
     handled = screen.eventHandler(event.getId(), event.getName());
     if(handled) break;
   }
+}
+
+// Method is called if STT transcription was successfull 
+void transcribe (String utterance, float confidence) 
+{
+  println(utterance);
+  result = utterance;
 }
   
   

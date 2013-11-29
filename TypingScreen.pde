@@ -1,5 +1,4 @@
 class TypingScreen extends Screen {
-  String[] wordList = loadStrings("words.txt");
   ArrayList<Word> words;
   char letter;
   String word = "";
@@ -30,8 +29,7 @@ class TypingScreen extends Screen {
     rect(0,0,screenWidth,80);
     fill(colorScore);
     text("SCORE : "+score,(width/2)-200,40);
-    text("LEVEL : "+level,(width/2)+100,40);
-    
+    text("LEVEL : "+level,(width/2)+100,40);    
     
     
     // Display bottom bar
@@ -145,7 +143,7 @@ class TypingScreen extends Screen {
     String text = wordList[int(random(wordList.length))];
     
     boolean wordIsWrong = false;
-    if(boolean(int(random(0,2)))) {
+    if(!boolean(int(random(0,3)))) {
       // replace random character with random character
       char[] tempArray = text.toCharArray();
       char randomChar = (char)((int)'a' + random(1) * ((int)'z' - (int)'a' + 1));
