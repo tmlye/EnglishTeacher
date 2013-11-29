@@ -8,6 +8,13 @@ class TypingScreen extends Screen {
   int score;
   int frame = 0;
   int level;
+  int lastAnswer = 2;
+  int nbFrameAnswer = 0;
+  
+  PImage cross = loadImage("gamePics/cross.png");
+  PImage tick = loadImage("gamePics/tick.png");
+  PImage neutral = loadImage("gamePics/minus.png");
+  
   color colorTopBar=#F4FDFE;
   color colorScore=#1D709E;
   
@@ -46,17 +53,27 @@ class TypingScreen extends Screen {
     if(words.size() < (2 + level)){
       words.add(createWord());
     }
+    
+    // Correctness
+    if(nbFrameAnswer < 10 ){
+      displayAnswer(lastAnswer);
+      nbFrameAnswer ++;
+    }
+    else
+      nbFrameAnswer = 0;
+      
+    // Display words
     fill(#FA6900);
     Iterator<Word> it = words.iterator();
     while(it.hasNext()) {
       Word nw = it.next();
       if(nw.x > width) {                    // remove the word if it's off screen and modify score
         if(!nw.isCorrect){
-          // Display ok image
+          lastAnswer = -1;
           score --;
         }
         else{
-          //Display ok image
+          lastAnswer = 1;
           score ++;
         } 
         it.remove();
@@ -74,6 +91,7 @@ class TypingScreen extends Screen {
       text("[INSERT GAME INSTRUCTIONS IN NATIVE LANGUAGE]\n",width/2-340,height/2+50);
     }
     
+    
     // Scores
     if(score <10)
       level = 1;
@@ -88,6 +106,15 @@ class TypingScreen extends Screen {
       speed += 0.5;
     }
     frame++;
+  }
+  
+  void displayAnswer(int i){
+    if(i == 1)
+      image(tick,width-250,80);
+    if(i == 0)
+      image(neutral,width-250,80);
+    if(i == -1)
+      image(cross,width-250,80);
   }
   
   void mouseClickHandler() {
@@ -127,17 +154,17 @@ class TypingScreen extends Screen {
       if(nw.text.equals(word)) {
         if(!nw.isCorrect){
           it.remove();
-          // Display ok image
+          lastAnswer = 1;
           return 1;
         }
         else {
           it.remove();
-          // Display neutral image
+          lastAnswer = 0;
           return 0;
         }
       }
      }
-    //display bad image
+    lastAnswer = -1;
     return -1;
   }
   
