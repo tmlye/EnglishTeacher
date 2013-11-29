@@ -53,12 +53,14 @@ class TypingScreen extends Screen {
     }
     
     // Correctness
-    if(nbFrameAnswer < 10 ){
+    if(nbFrameAnswer < 20 && lastAnswer !=2){
       displayAnswer(lastAnswer);
       nbFrameAnswer ++;
     }
-    else
+    else{
       nbFrameAnswer = 0;
+      lastAnswer = 2;
+    }
       
     // Display words
     fill(#FA6900);
