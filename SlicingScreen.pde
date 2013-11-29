@@ -93,12 +93,14 @@ class SlicingScreen extends Screen {
     
     // correctness 
     
-    if(nbFrameAnswer < 10 ){
+    if(nbFrameAnswer < 10 && lastAnswer !=2){
       displayAnswer(lastAnswer);
       nbFrameAnswer ++;
     }
-    else
+    else{
       nbFrameAnswer = 0;
+      lastAnswer = 2;
+    }
     
     // Levels
     if(score <10)
