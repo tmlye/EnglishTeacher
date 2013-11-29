@@ -1,13 +1,14 @@
 class CatchingScreen extends Screen {  
   ArrayList<Word> words;
 
-    
   int speed ; // larger means faster
   int wordRate = 15; // larger means less words
   int frame = 0;
   int level = 0;
   float scale = 1.6;
   int score = 0;
+  int lastAnswer = 2;
+  int nbFrameAnswer = 0;
   
   float controllerPosition = width / 2;
   int controllerSpeed = 60;
@@ -20,6 +21,10 @@ class CatchingScreen extends Screen {
   
   color background = #E0E4CC;
   
+  PImage cross = loadImage("gamePics/cross.png");
+  PImage tick = loadImage("gamePics/tick.png");
+  PImage neutral = loadImage("gamePics/minus.png");
+
   PFont font = createFont("Helvetica", 20, true);
   color fontColor = #000000;
   
@@ -107,6 +112,14 @@ class CatchingScreen extends Screen {
       text("[INSERT GAME INSTRUCTIONS IN NATIVE LANGUAGE]\n",width/2-340,height/2+50);
     }
     
+    if(nbFrameAnswer < 10 && lastAnswer !=2){
+      displayAnswer(lastAnswer);
+      nbFrameAnswer ++;
+    }
+    else{
+      nbFrameAnswer = 0;
+      lastAnswer = 2;
+    }
     // Scores
     if(score <10)
       level = 1;
@@ -159,12 +172,12 @@ class CatchingScreen extends Screen {
       Word word = it.next();
       if( (word.y >= height-controllerHeight) && ((word.x+(word.text.length()*10)) > (controllerPosition - controllerWidth / 2) && word.x < (controllerPosition + controllerWidth/2)) ) {
         if(!word.isCorrect){
-         // Display ok image
+          lastAnswer = 1;
           score++;
         }
         else{
+          lastAnswer = -1;
           score--;
-          // Display bad image
         }
         it.remove();
         return true;
@@ -173,11 +186,19 @@ class CatchingScreen extends Screen {
     return false;
   }
   
-  
+  void displayAnswer(int i){
+    if(i == 1)
+      image(tick,width-250,80);
+    if(i == 0)
+      image(neutral,width-250,80);
+    if(i == -1)
+      image(cross,width-250,80);
+    //nbFrameAnswer = 0;
+  }
   
   Word createWord() {
     String text = wordList[int(random(wordList.length))];
-    
+
     boolean wordIsWrong = false;
     if(!boolean(int(random(0,4)))) {
       // replace random character with random character

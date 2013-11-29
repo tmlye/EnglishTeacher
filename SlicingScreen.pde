@@ -11,6 +11,12 @@ class SlicingScreen extends Screen {
   int score = 0;
   int level = 1;
   int frame = 0;
+  int lastAnswer = 2;
+  int nbFrameAnswer = 0;
+  
+  PImage cross = loadImage("gamePics/cross.png");
+  PImage tick = loadImage("gamePics/tick.png");
+  PImage neutral = loadImage("gamePics/minus.png");
   
   color colorTopBar=#F4FDFE;
   color colorScore=#1D709E;
@@ -64,12 +70,12 @@ class SlicingScreen extends Screen {
     if(updImage%20==0){
       if(correctChoice() == 1){
         score++;
-        // Display good image
+        lastAnswer = 1;
         word = createWord();
       }
       else if(correctChoice() == -1){
         score--;
-        // Display bad image
+        lastAnswer = -1;
         word = createWord();
       }
     }
@@ -85,6 +91,15 @@ class SlicingScreen extends Screen {
       text("[INSERT GAME INSTRUCTIONS IN NATIVE LANGUAGE]\n",width/2-340,height/2+50);
     }
     
+    // correctness 
+    
+    if(nbFrameAnswer < 10 ){
+      displayAnswer(lastAnswer);
+      nbFrameAnswer ++;
+    }
+    else
+      nbFrameAnswer = 0;
+    
     // Levels
     if(score <10)
       level = 1;
@@ -98,6 +113,15 @@ class SlicingScreen extends Screen {
       level = 5;
       
     frame++;
+  }
+  
+  void displayAnswer(int i){
+    if(i == 1)
+      image(tick,width-250,80);
+    if(i == 0)
+      image(neutral,width-250,80);
+    if(i == -1)
+      image(cross,width-250,80);
   }
   
   
