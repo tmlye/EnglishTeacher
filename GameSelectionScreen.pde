@@ -3,6 +3,8 @@ class GameSelectionScreen extends Screen {
   PImage logOffImg;
   PImage avatar;
   PImage[] gameIcons;
+  PImage[] gameIconsHover;
+  PImage icon; 
   int hoverIndex;// id of the icon the mouse is hovering over
   
   // COLORS
@@ -122,7 +124,11 @@ class GameSelectionScreen extends Screen {
     for(int i = 0; i < 4; i++) {
       gameIcons[i] = loadImage("gamePics/gameIcon" + i + ".png");
     }
-    
+    gameIconsHover = new PImage[4];
+    for(int i = 0; i < 4; i++) {
+      gameIconsHover[i] = loadImage("gamePics/gameIconHover" + i + ".png");
+    }
+
     // Top left
     elements.add(
      cp5.addTextlabel("game0Level")
@@ -147,7 +153,7 @@ class GameSelectionScreen extends Screen {
     // Bottom right
     elements.add(
      cp5.addTextlabel("game3Level")
-       .setText("New game")
+       .setText("Speaking")
        .setPosition(rightColumn, top + 2 * gameIconSize + distBetweenRows + 10)
        .setColorValue(fontColor)
        .setFont(font));
@@ -160,15 +166,18 @@ class GameSelectionScreen extends Screen {
     image(avatar, leftPosition, top);
     
     // Top left game
-    image(gameIcons[0], leftColumn, top, gameIconSize, gameIconSize);
+    icon = (hoverIndex == 0 ? gameIconsHover[0] : gameIcons[0]); 
+    image(icon, leftColumn, top, gameIconSize, gameIconSize);
     // Bottom left game
-    image(gameIcons[1], leftColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
+    icon = (hoverIndex == 1 ? gameIconsHover[1] : gameIcons[1]); 
+    image(icon, leftColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
     // Top right game
-    image(gameIcons[2], rightColumn, top, gameIconSize, gameIconSize);
+    icon = (hoverIndex == 2 ? gameIconsHover[2] : gameIcons[2]); 
+    image(icon, rightColumn, top, gameIconSize, gameIconSize);
     // Bottom right game
-    image(gameIcons[3], rightColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
+    icon = (hoverIndex == 3 ? gameIconsHover[3] : gameIcons[3]); 
+    image(icon, rightColumn, top + distBetweenRows + gameIconSize, gameIconSize, gameIconSize);
     
-   // TODO enter game icon highlight code here  
   }
   
   void mouseClickHandler(){
